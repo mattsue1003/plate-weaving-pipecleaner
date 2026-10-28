@@ -344,6 +344,14 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid
         <p>編織時大家一起念「上、下、上、下」，每編完一圈請學員輕輕往中心推緊。每一段顏色可以讓學員自己選，最後一起比較誰的彩虹最漂亮。毛根作品可以組合成花束、花圈，掛在活動室布置。</p>
       </div>
       <div>
+        <h3>鈍頭塑膠針是什麼</h3>
+        <p>又叫毛線針：塑膠做的大針，長約 7～15 公分，針頭圓圓的不尖、針孔很大，粗毛線也穿得過去，不會刺傷手。手工藝店、文具店、大創都有，一支十幾元。沒有的話，毛線尾端纏膠帶捲尖，或用冰棒棍鑽一個洞也可以。</p>
+      </div>
+      <div>
+        <h3>怎麼平均分成幾等份</h3>
+        <p>最準的是印 A4 模板（實際大小 100%），剪下來放在紙盤正中間照線畫。沒有印表機：用皮尺沿盤緣量周長再除以缺口數，例如 18 公分紙盤一圈約 56.5 公分，9 個缺口就是每 6.3 公分一個；或用量角器從中心每 40° 畫一條線。差一點點沒關係，編起來看不出來。</p>
+      </div>
+      <div>
         <h3>為什麼缺口要奇數</h3>
         <p>放射線是奇數條時，繞完一圈回到起點，下一圈自然會跟上一圈相反（這圈在上面的線，下一圈換成在下面），編出來才會緊密交錯。偶數條會一直重複同一排，要特別跳一條才行。</p>
       </div>
@@ -459,10 +467,11 @@ function weaveGeo(les){
   const nP = k => pol(ang(k), rimN - .05);
   const back = (a,b) => { const A = ang(a); let d = ang(b) - A; d = ((d % TAU) + TAU*1.5) % TAU - Math.PI; const pts = []; for (let i=0;i<=10;i++) pts.push(...pol(A + d*i/10, PR + .55)); return {type:'back', pts:[...nP(a), ...pts, ...nP(b)]}; };
   const segs = [];
-  chords.forEach(([a,b], i) => { if (i) segs.push(back(chords[i-1][1], a)); segs.push({type:'front', pts:[...nP(a), 0, 0, ...nP(b)]}); });
+  chords.forEach(([a,b], i) => { if (i) segs.push(back(chords[i-1][1], a)); const [ax,ay] = nP(a), [bx,by] = nP(b); segs.push({type:'front', chord:true, pts:[ax, ay, (ax+bx)/2, (ay+by)/2, bx, by]}); });
   segs.push(back(chords[m-1][1], left));
   segs.push({type:'front', pts:[...nP(left), 0, 0]});
-  { const w = []; for (let i=0;i<=24;i++){ const q = -Math.PI/2 + i/24*TAU*1.5; w.push(Math.cos(q)*.32, Math.sin(q)*.32); } segs.push({type:'wrap', pts:w}); }
+  { const w = []; for (let i=0;i<=48;i++){ const q = -Math.PI/2 + i/48*TAU*2, r = lerp(1.9, .45, i/48); w.push(Math.cos(q)*r, Math.sin(q)*r); } segs.push({type:'wrap', pts:w}); }
+  G.starR = Math.abs(Math.cos(off*Math.PI/N))*(rimN - .05);
   let L = 0; for (const s of segs){ let l = 0; for (let i=2;i<s.pts.length;i+=2) l += Math.hypot(s.pts[i]-s.pts[i-2], s.pts[i+1]-s.pts[i-1]); s.len = l; s.at = L; L += l; }
   G.warpSegs = segs; G.warpLen = L; G.chords = chords; G.left = left;
   G.warpText = chords.map(([a,b]) => `${a+1}→${b+1}`).join('、');
@@ -656,16 +665,18 @@ function drawWeave(ctx, G, v, T){
   ctx.restore();
 }
 function warpTip(G, t){
-  const target = t*G.warpLen; let seg = G.warpSegs[0];
+  const target = Math.min(t, .9999)*G.warpLen; let seg = G.warpSegs[0];
   for (const s of G.warpSegs){ seg = s; if (s.at + s.len >= target) break; }
   let left = target - seg.at, P = seg.pts, tip = [P[0],P[1]];
   for (let i=2;i<P.length;i+=2){ const l = Math.hypot(P[i]-P[i-2], P[i+1]-P[i-1]); if (left <= l){ const f = l ? left/l : 0; tip = [P[i-2]+(P[i]-P[i-2])*f, P[i-1]+(P[i+1]-P[i-1])*f]; break; } left -= l; tip = [P[i],P[i+1]]; }
   return {x:tip[0], y:tip[1], type:seg.type};
 }
+const warpGather = (G, t) => { const w = G.warpSegs[G.warpSegs.length-1]; return clamp((t*G.warpLen - w.at)/w.len, 0, 1); };
 function drawWarp(ctx, G, t, backA){
-  const target = t*G.warpLen;
+  const target = t*G.warpLen, g = ease(warpGather(G, t));
   for (const s of G.warpSegs){ if (s.at >= target) break;
     let left = target - s.at, P = s.pts, n = 1, tail = null;
+    if (s.chord && g > 0) P = [P[0], P[1], P[2]*(1-g), P[3]*(1-g), P[4], P[5]];
     for (let i=2;i<P.length;i+=2){ const l = Math.hypot(P[i]-P[i-2], P[i+1]-P[i-1]); if (left >= l){ n++; left -= l; } else { const f = left/l; tail = [P[i-2]+(P[i]-P[i-2])*f, P[i-1]+(P[i+1]-P[i-1])*f]; break; } }
     const path = flatPath(P, n, tail);
     if (s.type === 'back'){ if (backA > 0){ ctx.save(); ctx.globalAlpha = backA*.9; ctx.setLineDash([.28,.2]); ctx.strokeStyle = '#fff'; ctx.lineWidth = .09; ctx.stroke(path); ctx.restore(); } }
@@ -935,7 +946,7 @@ function weaveMaterials(G){
   out.push({c:G.plate, t:`7 吋（約 18 公分）${plate}`});
   out.push({c:G.warp, t:`放射線用${COLORS[G.warpKey].n}色毛線約 ${G.warpUse} 公尺`});
   for (const k in G.yarnUse){ if (k === G.warpKey && G.web) continue; out.push({c:COLORS[k].h, t:`${COLORS[k].n}色毛線約 ${G.yarnUse[k]} 公尺`}); }
-  out.push({tool:true, t:'鈍頭塑膠針 1 支、剪刀、膠帶、鉛筆、A4 模板'});
+  out.push({tool:true, t:'鈍頭塑膠針（毛線針）1 支、剪刀、膠帶、鉛筆、A4 模板'});
   if (G.decos.includes('rays')) out.push({c:'#f6c636', t:`黃色、橘色紙（剪 ${G.N*2} 個三角形光芒）、口紅膠`});
   if (G.decos.includes('leaves')) out.push({c:'#7cc35a', t:'綠色紙（剪 2 片葉子）、口紅膠'});
   if (G.decos.includes('spider')) out.push({c:'#2a2a2a', t:'黑色毛根 2 根、黑色小毛球 2 顆、活動眼睛 2 顆、白膠'});
@@ -953,12 +964,12 @@ const matLine = list => list.map(m => m.t).join('、');
 function buildWeaveSteps(G){
   const les = G.les, N = G.N, steps = [];
   const ycols = G.stripes.map(s => COLORS[s.c].n).filter((v,i,a) => a.indexOf(v) === i).join('、');
-  steps.push({type:'prep', title:'準備材料', text:`準備 7 吋紙盤 1 個、毛線（放射線用${COLORS[G.warpKey].n}色${G.web ? '' : `，編織用${ycols}`}）、鈍頭塑膠針 1 支、剪刀、膠帶、鉛筆，還有 A4 模板。`, tip:'毛線先剪成一段一段（每段約 1～1.5 公尺），太長容易打結。'});
-  steps.push({type:'mark', title:'對好模板畫記號', text:`把 A4 模板剪下來，放在紙盤正中間，沿著 ${N} 條線在盤緣畫上記號。${N} 個記號平均分一圈 360°，每兩個之間是 360° ÷ ${N} ≈ ${G.deg}°。`, tip:`缺口一定要是奇數（${N} 個），一上一下才會一圈一圈錯開。`});
+  steps.push({type:'prep', title:'準備材料', text:`準備 7 吋紙盤 1 個、毛線（放射線用${COLORS[G.warpKey].n}色${G.web ? '' : `，編織用${ycols}`}）、鈍頭塑膠針 1 支、剪刀、膠帶、鉛筆，還有 A4 模板。`, tip:'鈍頭塑膠針又叫「毛線針」：塑膠做的大針，針頭圓圓不尖、針孔很大，毛線好穿也不會刺到手，手工藝店、文具店、大創都買得到。沒有的話，毛線尾端纏一圈膠帶捲尖，就能當針用。'});
+  steps.push({type:'mark', title:'對好模板畫記號', text:`把 A4 模板剪下來，放在紙盤正中間，沿著 ${N} 條線在盤緣畫上記號。${N} 個記號平均分一圈 360°，每兩個之間是 360° ÷ ${N} ≈ ${G.deg}°。`, tip:`沒有印模板也可以：用皮尺沿著盤緣量，每 ${(Math.PI*18/N).toFixed(1)} 公分畫一個記號（18 公分紙盤一圈約 56.5 公分 ÷ ${N}）。差一點點沒關係，缺口一定要是奇數。`});
   if (les.petals) steps.push({type:'petal', title:'把盤緣剪成花瓣', text:`兩個記號之間剪成一片圓弧，一圈剪出 ${N} 片花瓣，記號剛好在兩片花瓣中間。`, tip:'剪刀不動、轉紙盤，弧線會比較順。'});
   const depth = (rimR(G, G.ang(0), 1) - G.notchIn).toFixed(1).replace(/\.0$/,'');
   steps.push({type:'cut', title:`剪出 ${N} 個缺口`, text:`在每個記號上往中心剪一刀，長約 ${depth} 公分。一邊剪一邊數：1、2、3……一共 ${N} 個缺口。`, tip:'剪刀拿不穩的話，可以由帶領者先剪好，學員負責數數和檢查。'});
-  steps.push({type:'warp', title:'繞放射線（經線）', text:`毛線尾端用膠帶貼在背面 1 號缺口旁。照順序拉線，每條都經過中心：${G.warpText}（在背面移到下一個號碼）。最後從 ${G.left+1} 號拉到中心，繞中心一圈打結。`, tip:'線要拉緊，但不要把紙盤拉彎。數一數，中心會有 ' + N + ' 條放射線。'});
+  steps.push({type:'warp', title:'繞放射線（經線）', text:`毛線從 1 號缺口穿到背面，線尾用膠帶貼住。再照順序直直拉到對面的缺口：${G.warpText}（每拉完一條，在背面移到隔壁號碼）。最後從 ${G.left+1} 號拉到中心，在中心繞兩圈，把所有線收在一起再打結。`, tip:'線都是直線，不用圖釘：對面的缺口剛好偏一點，所以線會在中心附近交叉成一個小星星；最後繞中心那兩圈，會把它們拉成正中間的放射線。'});
   if (G.web){
     const s = G.stripes[0], mid = s.ta + (s.tb - s.ta)*.3;
     steps.push({type:'weave', stripe:0, ta:0, tb:mid, swatch:s.hex, title:'從中心開始繞', text:'白色毛線穿進塑膠針，線頭綁在中心。針往旁邊的放射線走，在每一條線上「繞一圈」再往下一條，就像蜘蛛在吐絲。', tip:'每圈之間留約 0.7 公分空隙，網子才看得清楚。'});
@@ -1003,7 +1014,7 @@ const curLes = () => S.lesson < 0 ? S.custom : unitList(S.unit)[S.lesson];
 const unitName = u => u === 'weave' ? '紙盤編織' : '毛根造型';
 
 /* 紙盤：每一步結束時的狀態 */
-const WV0 = () => ({cam:null, prepT:0, markT:0, tmplA:0, cutF:0, amp:0, warpT:0, backA:0, badgeA:0, wt:0, wActive:false, knotT:-1, finT:0, deco:{}, doneT:0, sc:null, stype:''});
+const WV0 = () => ({cam:null, prepT:0, markT:0, tmplA:0, cutF:0, amp:0, warpT:0, backA:0, badgeA:0, wt:0, wActive:false, knotT:-1, tapeT:-1, finT:0, deco:{}, doneT:0, sc:null, stype:''});
 function camOf(i){ const s = lessonSteps[i]; if (!s) return LD.cams.main; if (s.type === 'prep') return LD.cams.prep; if (s.type === 'deco' || s.type === 'done') return LD.cams.deco; return LD.cams.main; }
 function wApply(s){
   if (s.type==='prep') V.prepT = 1;
@@ -1071,6 +1082,30 @@ function drawPrepRow(ctx, G, t){
     ctx.save(); ctx.globalAlpha = e; ctx.fillStyle='#fff'; ctx.font = `${Math.min(24, sp*.26)}px ${DISPLAY}`; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.shadowColor='rgba(0,0,0,.35)'; ctx.shadowBlur=4; ctx.fillText(it.n, x, 860); ctx.restore();
   });
 }
+function drawTapeInset(ctx, t, G){
+  const cx = 790, cy = 250, R = 128, a = clamp(t*4, 0, 1)*clamp((1-t)*8, 0, 1);
+  if (a <= 0) return;
+  ctx.save(); ctx.globalAlpha = a;
+  ctx.fillStyle='rgba(0,0,0,.25)'; ctx.beginPath(); ctx.arc(cx+5, cy+7, R+8, 0, TAU); ctx.fill();
+  ctx.fillStyle='#fffaf3'; ctx.beginPath(); ctx.arc(cx, cy, R+8, 0, TAU); ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle='#58a8f0'; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.clip();
+  ctx.fillStyle = TK.mat || '#2f9e85'; ctx.fillRect(cx-R, cy-R, 2*R, 2*R);
+  // 翻到背面的紙盤邊緣（上方是盤緣，中間一個缺口）
+  const top = cy - 70, plate = new Path2D(); plate.moveTo(cx-R-10, top+18); plate.quadraticCurveTo(cx, top-14, cx+R+10, top+18); plate.lineTo(cx+R+10, cy+R+10); plate.lineTo(cx-R-10, cy+R+10); plate.closePath();
+  ctx.fillStyle = '#efe8dc'; ctx.fill(plate); ctx.fillStyle = TK.mat || '#2f9e85'; ctx.beginPath(); ctx.moveTo(cx-9, top-6); ctx.lineTo(cx-5, top+40); ctx.lineTo(cx+5, top+40); ctx.lineTo(cx+9, top-6); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle='rgba(120,90,60,.18)'; ctx.lineWidth = 2; for (let x=cx-R; x<cx+R; x+=16){ ctx.beginPath(); ctx.moveTo(x, top+30); ctx.lineTo(x, top+70); ctx.stroke(); }
+  // 毛線從缺口穿到背面，線尾放在缺口旁
+  const e1 = ease(clamp(t/.4, 0, 1)), yarn = new Path2D(); yarn.moveTo(cx, top - 40); yarn.lineTo(cx, top + 30); yarn.quadraticCurveTo(cx - 10, top + 30 + 60*e1, cx - 45*e1, top + 50 + 60*e1); strokeYarn(ctx, yarn, G.warp, 16);
+  // 膠帶壓上去
+  const e2 = clamp((t - .42)/.3, 0, 1);
+  if (e2 > 0){ const k = 1.5 - .5*easeOut(e2); ctx.save(); ctx.translate(cx - 22, top + 92); ctx.rotate(-.35); ctx.scale(k, k); ctx.globalAlpha = a*Math.min(1, e2*2);
+    ctx.fillStyle='rgba(0,0,0,.15)'; ctx.fillRect(-46+3, -18+4, 92, 36); ctx.fillStyle='rgba(236,226,200,.92)'; ctx.fillRect(-46, -18, 92, 36);
+    ctx.strokeStyle='rgba(150,130,100,.45)'; ctx.lineWidth = 2; ctx.beginPath(); for (let x=-46;x<=46;x+=6){ ctx.moveTo(x,-18); ctx.lineTo(x+3,-21); } for (let x=-46;x<=46;x+=6){ ctx.moveTo(x,18); ctx.lineTo(x+3,21); } ctx.stroke(); ctx.restore(); }
+  ctx.fillStyle='#3b2b2b'; ctx.font = `22px ${DISPLAY}`; ctx.textAlign='center'; ctx.fillText('紙盤背面', cx, cy + R - 22);
+  badge(ctx, 1, cx + 30, top - 16, 15, '#ffe27a');
+  ctx.restore();
+  ctx.save(); ctx.globalAlpha = a; pill(ctx, t < .42 ? '線從 1 號缺口穿到背面' : '線尾用膠帶貼住', cx, cy + R + 34, 24, '#3d8fd6'); ctx.restore();
+}
 function drawKnotInset(ctx, t, c1, c2){
   const cx = 790, cy = 250, R = 128, a = clamp(t*4, 0, 1)*clamp((1-t)*10, 0, 1);
   if (a <= 0) return;
@@ -1102,7 +1137,11 @@ function render(){
       for (let k=0;k<LD.N && k < V.markT*LD.N;k++){ const [x,y] = ws(...pol(LD.ang(k), 6.1)); ctx.fillText(`${Math.round(k*360/LD.N)}°`, x, y); } ctx.restore();
       if (V.markT > .3) pill(ctx, `${LD.N} 個記號・每格 360° ÷ ${LD.N} ≈ ${LD.deg}°`, 500, ws(0, PR)[1] + 50, 26, '#ef4b4b'); }
     if (V.stype === 'cut' && busy) pill(ctx, `剪缺口：${Math.min(LD.N, Math.floor(V.cutF + .3))} / ${LD.N}`, 500, 70, 30);
-    if (V.stype === 'warp' && busy){ const tp = warpTip(LD, V.warpT); if (tp.type === 'back'){ const [x,y] = ws(tp.x*1.08, tp.y*1.08); pill(ctx, '在背面移到隔壁', x, y + (tp.y > 0 ? 40 : -40), 22, '#3d8fd6'); } }
+    if (V.tapeT >= 0) drawTapeInset(ctx, V.tapeT, LD);
+    if (V.stype === 'warp' && busy && V.tapeT < 0 && V.warpT > 0 && V.warpT < 1){ const tp = warpTip(LD, V.warpT);
+      if (tp.type === 'wrap') pill(ctx, '中心繞兩圈，把線收在一起', 500, ws(0, PR)[1] + 50, 26, '#ef4b4b');
+      else if (tp.type === 'front') pill(ctx, '直直拉到對面的缺口', 500, ws(0, PR)[1] + 50, 26, 'rgba(20,30,25,.8)'); }
+    if (V.stype === 'warp' && busy){ const tp = warpTip(LD, V.warpT); if (tp.type === 'back' && V.tapeT < 0){ const [x,y] = ws(tp.x*1.08, tp.y*1.08); pill(ctx, '在背面移到隔壁', x, y + (tp.y > 0 ? 40 : -40), 22, '#3d8fd6'); } }
     if (V.wActive && V.wt > 0){
       const big = LD.les.basic && V.wt < TAU*3, win = LD.dA*1.6;
       for (let i=LD.cross.length-1;i>=0;i--){ const c = LD.cross[i]; if (c.t > V.wt) continue; if (V.wt - c.t > win) break;
@@ -1179,7 +1218,9 @@ async function animWeave(i, s, tok){
   if (s.type==='cut'){ V.badgeA = 1; const per = 520*spd();
     if (!await tween(per*G.N, t => { const x = t*G.N, k = Math.min(G.N-1, Math.floor(x)), u = x - k; V.cutF = k + clamp((u-.25)/.55, 0, 1); const a = G.ang(k), [px,py] = pol(a, PR + 1.6 - clamp((u-.1)/.4,0,1)*1.1); V.sc = {x:px, y:py, ang:a + Math.PI, open: u < .25 ? .9 : u < .8 ? Math.abs(Math.cos((u-.25)/.55*Math.PI*1.5))*.9 : .2}; }, tok)) return false;
     V.cutF = G.N; V.sc = null; return wait(500, tok); }
-  if (s.type==='warp'){ V.badgeA = 1; V.backA = 1; const dur = clamp(G.N*900, 5000, 12000)*spd();
+  if (s.type==='warp'){ V.badgeA = 1; V.backA = 1;
+    if (!await tween(3000*spd(), t => V.tapeT = t, tok)) return false; V.tapeT = -1;
+    const dur = clamp(G.N*1000, 6000, 14000)*spd();
     if (!await tween(dur, t => V.warpT = t, tok)) return false; V.warpT = 1;
     if (!await tween(700*spd(), t => { V.backA = 1-t; V.badgeA = 1-t; }, tok)) return false; V.backA = 0; V.badgeA = 0; return wait(300, tok); }
   if (s.type==='weave'){ V.wt = s.ta;
@@ -1347,6 +1388,7 @@ async function makeWeaveSheet(les, no){
   c.fillStyle='#7a625d'; c.fillText(les.petals ? '先沿外圈花瓣線剪下，再剪缺口' : '沿外圈剪下，放在紙盤正中間畫記號', cx, cy + 14.5*MM);
   c.textAlign='left'; c.textBaseline='alphabetic';
   c.fillStyle='#9a8f8a'; c.font = `500 ${2.8*MM}px ${FONT}`; c.fillText('紙盤比較大？模板放中間，', 15*MM, 42*MM); c.fillText('沿線延長到盤緣再剪。', 15*MM, 46*MM);
+  c.textAlign='right'; c.fillText('沒有印表機？用皮尺沿 18 公分盤緣', 195*MM, 42*MM); c.fillText(`每 ${(Math.PI*18/G.N).toFixed(1)} 公分畫一個記號`, 195*MM, 46*MM); c.textAlign='left';
   checkBar(c, 15*MM, 212*MM);
   // 下方：左欄材料＋條紋尺、中欄步驟＋繞線順序、右欄完成圖
   let y = 223*MM; const X = 15*MM;
