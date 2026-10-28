@@ -462,8 +462,8 @@ function weaveGeo(les){
   const segs = [];
   chords.forEach(([a,b], i) => { if (i) segs.push(back(chords[i-1][1], a)); const [ax,ay] = nP(a), [bx,by] = nP(b); segs.push({type:'front', chord:true, pts:[ax, ay, (ax+bx)/2, (ay+by)/2, bx, by]}); });
   segs.push(back(chords[m-1][1], left));
-  segs.push({type:'front', pts:[...nP(left), 0, 0]});
-  { const w = []; for (let i=0;i<=48;i++){ const q = -Math.PI/2 + i/48*TAU*2, r = lerp(1, .9, i/48); w.push(Math.cos(q)*r, Math.sin(q)*r); } segs.push({type:'wrap', pts:w}); }
+  segs.push({type:'front', last:true, pts:[...nP(left), ...pol(ang(left), 1)]});
+  { const w = [], a0 = ang(left); for (let i=0;i<=54;i++){ const q = a0 + i/54*TAU*2.25, r = lerp(1, .9, i/54); w.push(Math.cos(q)*r, Math.sin(q)*r); } segs.push({type:'wrap', pts:w}); }
   G.starR = Math.abs(Math.cos(off*Math.PI/N))*(rimN - .05);
   let L = 0; for (const s of segs){ let l = 0; for (let i=2;i<s.pts.length;i+=2) l += Math.hypot(s.pts[i]-s.pts[i-2], s.pts[i+1]-s.pts[i-1]); s.len = l; s.at = L; L += l; }
   G.warpSegs = segs; G.warpLen = L; G.chords = chords; G.left = left;
@@ -476,7 +476,7 @@ function weaveGeo(les){
   G.warpUse = meters(L);
   // 鏡頭
   G.wrapAt = segs[segs.length-1].at/L;
-  G.cams = {prep:{cx:500, cy:360, k:27}, main:{cx:500, cy:500, k:les.k || 40}, zoom:{cx:500, cy:540, k:92}};
+  G.cams = {prep:{cx:500, cy:360, k:27}, main:{cx:500, cy:500, k:les.k || 40}, zoom:{cx:500, cy:530, k:78}};
   G.cams.deco = {cx:500, cy:les.cy || 500, k:les.k || 40};
   G.decos = les.deco || [];
   return G;
@@ -672,6 +672,7 @@ function drawWarp(ctx, G, t, backA, cinch, knot){
   for (const s of G.warpSegs){ if (s.at >= target) break;
     let left = target - s.at, P = s.pts, n = 1, tail = null;
     if (s.chord && g > 0) P = [P[0], P[1], P[2]*(1-g), P[3]*(1-g), P[4], P[5]];
+    if (s.last) P = [P[0], P[1], P[2]*rw, P[3]*rw]; // 最後一條線停在線圈的起點，接著就繞圈
     for (let i=2;i<P.length;i+=2){ const l = Math.hypot(P[i]-P[i-2], P[i+1]-P[i-1]); if (left >= l){ n++; left -= l; } else { const f = left/l; tail = [P[i-2]+(P[i]-P[i-2])*f, P[i-1]+(P[i+1]-P[i-1])*f]; break; } }
     if (s.type === 'wrap'){ P = P.map(v => v*rw); if (tail) tail = [tail[0]*rw, tail[1]*rw]; }
     const path = flatPath(P, n, tail);
@@ -680,7 +681,7 @@ function drawWarp(ctx, G, t, backA, cinch, knot){
   }
   if (backA > 0){ const [x,y] = pol(G.ang(0) - .12, PR + .9); ctx.save(); ctx.globalAlpha = backA; ctx.translate(x,y); ctx.rotate(G.ang(0)); ctx.fillStyle='rgba(235,225,200,.9)'; ctx.fillRect(-.45,-.3,.9,.6); ctx.restore(); }
   if (t >= 1){ // 線尾：繞完兩圈後從線圈拉出來，拉緊時越拉越長
-    const w = G.warpSegs[G.warpSegs.length-1].pts, ex = w[w.length-2]*rw, ey = w[w.length-1]*rw, d = Math.hypot(ex,ey) || 1, L = lerp(.9, 2.4, g);
+    const w = G.warpSegs[G.warpSegs.length-1].pts, ex = w[w.length-2]*rw, ey = w[w.length-1]*rw, d = Math.hypot(ex,ey) || 1, L = lerp(.9, 2.4, g)*(1 - .7*(c >= 1 ? (knot ?? 1) : 0));
     const tl = new Path2D(); tl.moveTo(ex, ey); tl.lineTo(ex + ex/d*L, ey + ey/d*L); strokeYarn(ctx, tl, G.warp, WARP_W); }
   const k = c >= 1 ? (knot ?? 1) : 0;
   if (k > 0){ ctx.fillStyle = shade(G.warp,-.25); ctx.beginPath(); ctx.arc(0,0,.42*k,0,TAU); ctx.fill(); ctx.fillStyle = G.warp; ctx.beginPath(); ctx.arc(-.05,-.05,.3*k,0,TAU); ctx.fill(); }
@@ -970,7 +971,7 @@ function buildWeaveSteps(G){
   const depth = (rimR(G, G.ang(0), 1) - G.notchIn).toFixed(1).replace(/\.0$/,'');
   steps.push({type:'cut', title:`剪出 ${N} 個缺口`, text:`在每個記號上往中心剪一刀，長約 ${depth} 公分。一邊剪一邊數：1、2、3……一共 ${N} 個缺口。`, tip:'剪刀拿不穩的話，可以由帶領者先剪好，學員負責數數和檢查。'});
   steps.push({type:'warp', title:'繞放射線（經線）', text:`毛線從 1 號缺口穿到背面，線尾用膠帶貼住。再照順序直直拉到對面的缺口：${G.warpText}（每拉完一條，在背面移到隔壁號碼）。最後從 ${G.left+1} 號拉到中心就先停住。`, tip:'線都是直線，不用圖釘。對面的缺口剛好偏一點，所以線會在中心附近交叉成一個小星星，下一步再把它們收到正中間。'});
-  steps.push({type:'gather', title:'中心繞兩圈、拉緊收線', text:'拉到中心的那條線不要剪，接著在所有交叉線的外面繞第 1 圈、第 2 圈。然後一手壓住紙盤中心，一手捏住線尾往外拉：線圈會越縮越小，把所有放射線收到正中間，最後打一個結。', tip:'慢慢拉，線圈縮到像一顆小豆子就可以打結。拉完數一數，從中心出去的線剛好是 ' + N + ' 條。'});
+  steps.push({type:'gather', title:'中心繞兩圈、拉緊收線', text:'最後拉到中心的那條線不要剪，用同一條線接著在所有交叉線的外面繞第 1 圈、第 2 圈。然後一手壓住紙盤中心，一手捏住線尾往外拉：線圈會越縮越小，把所有放射線收到正中間，最後打一個結。', tip:'慢慢拉，線圈縮到像一顆小豆子就可以打結。拉完數一數，從中心出去的線剛好是 ' + N + ' 條。'});
   if (G.web){
     const s = G.stripes[0], mid = s.ta + (s.tb - s.ta)*.3;
     steps.push({type:'weave', stripe:0, ta:0, tb:mid, swatch:s.hex, title:'從中心開始繞', text:'白色毛線穿進塑膠針，線頭綁在中心。針往旁邊的放射線走，在每一條線上「繞一圈」再往下一條，就像蜘蛛在吐絲。', tip:'每圈之間留約 0.7 公分空隙，網子才看得清楚。'});
@@ -1226,8 +1227,8 @@ async function animWeave(i, s, tok){
   if (s.type==='mark'){ V.prepT = 0; if (!await tween(3600*spd(), t => { V.tmplA = t < .82 ? clamp(t*6,0,1) : clamp((1-t)/.18,0,1); V.markT = clamp((t-.12)/.6, 0, 1); }, tok)) return false; V.tmplA = 0; return wait(300, tok); }
   if (s.type==='gather'){ V.backA = 0; V.badgeA = 0; V.cinch = 0; V.knotG = 0; const a = G.wrapAt;
     const phase = async (ms, label, fn) => { V.gLabel = label; return tween(ms*spd(), fn, tok); };
-    if (!await phase(1800, '這條線停在中心，先不要剪', () => {})) return false;
-    if (!await phase(2600, '第 1 圈：從所有交叉線的外面繞一圈', t => V.warpT = lerp(a, a + (1-a)/2, t))) return false;
+    if (!await phase(1800, '最後這條線拉到中心旁邊，先不要剪', () => {})) return false;
+    if (!await phase(2600, '同一條線接著繞第 1 圈：從所有交叉線的外面繞過去', t => V.warpT = lerp(a, a + (1-a)/2, t))) return false;
     if (!await phase(2400, '第 2 圈：再繞一圈，疊在第 1 圈旁邊', t => V.warpT = lerp(a + (1-a)/2, 1, t))) return false; V.warpT = 1;
     if (!await phase(1400, '一手壓住中心，一手捏住線尾', () => {})) return false;
     if (!await phase(3200, '把線尾往外拉：線圈縮小，所有線被收到正中間', t => V.cinch = t)) return false; V.cinch = 1;
