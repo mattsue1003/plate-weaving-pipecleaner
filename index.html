@@ -11,73 +11,67 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
 <style>
-/* Layout: 頂端彩旗＋彩色標題＋單元分頁；左邊工作墊舞台、右邊步驟卡；下方是兩個單元的教案牆 */
+/* Layout: 頂端一條織紋細帶＋明體標題＋單元分頁；左邊鼠尾草綠桌面舞台、右邊步驟卡；下方是兩個單元的教案牆。色調：亞麻、赤陶、鼠尾草綠，安靜舒壓 */
 :root{
-  --bg:#fff4e6;
-  --dot:#ffdcc6;
-  --surface:#ffffff;
-  --ink:#3b2b2b;
-  --muted:#7a625d;
-  --line:#f1d8c6;
-  --accent:#ef4b4b;
-  --accent-deep:#c43333;
+  --bg:#f4efe7;
+  --dot:#ebe3d6;
+  --surface:#fffdf9;
+  --ink:#3a3330;
+  --muted:#7d7268;
+  --line:#e4dacc;
+  --accent:#a8644b;
+  --accent-deep:#8a4f3a;
   --accent-ink:#ffffff;
-  --accent-soft:#ffe6df;
-  --sun:#ffc83d;
-  --mint:#38c1a0;
-  --sky:#58a8f0;
-  --grape:#9b6cf0;
-  --mat:#2f9e85;
-  --mat-line:rgba(255,255,255,.12);
-  --mat-line-strong:rgba(255,255,255,.26);
-  --focus:#1f6feb;
-  --font-display:"Huninn","jf-openhuninn","Arial Rounded MT Bold","PingFang TC",sans-serif;
+  --accent-soft:#f3e8df;
+  --sun:#e8d6ae;
+  --mint:#7f9c86;
+  --sky:#7d98ad;
+  --grape:#9a88a8;
+  --mat:#93a898;
+  --mat-line:rgba(255,255,255,.10);
+  --mat-line-strong:rgba(255,255,255,.18);
+  --shadow:0 10px 30px rgba(70,50,30,.07);
+  --focus:#5f7f99;
+  --font-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
   --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#221a20; --dot:#2b2127; --surface:#2d2229; --ink:#f6e9e4; --muted:#c7aea8; --line:#4a3740;
-    --accent:#ff6464; --accent-deep:#c94444; --accent-ink:#ffffff; --accent-soft:#4a2a2e;
-    --mat:#1f7564; --mat-line:rgba(255,255,255,.09); --mat-line-strong:rgba(255,255,255,.2);
-    --focus:#6aa5ff; color-scheme:dark;
+    --bg:#1f1d1b; --dot:#25221f; --surface:#2a2724; --ink:#efe8df; --muted:#b8ab9d; --line:#433c35;
+    --accent:#cf8a6d; --accent-deep:#a96a50; --accent-ink:#1f1d1b; --accent-soft:#3a2e28; --sun:#5b4f38;
+    --mat:#4f6357; --mat-line:rgba(255,255,255,.07); --mat-line-strong:rgba(255,255,255,.14);
+    --shadow:0 10px 30px rgba(0,0,0,.25); --focus:#9db7cc; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#221a20; --dot:#2b2127; --surface:#2d2229; --ink:#f6e9e4; --muted:#c7aea8; --line:#4a3740;
-  --accent:#ff6464; --accent-deep:#c94444; --accent-ink:#ffffff; --accent-soft:#4a2a2e;
-  --mat:#1f7564; --mat-line:rgba(255,255,255,.09); --mat-line-strong:rgba(255,255,255,.2);
-  --focus:#6aa5ff; color-scheme:dark;
+  --bg:#1f1d1b; --dot:#25221f; --surface:#2a2724; --ink:#efe8df; --muted:#b8ab9d; --line:#433c35;
+  --accent:#cf8a6d; --accent-deep:#a96a50; --accent-ink:#1f1d1b; --accent-soft:#3a2e28; --sun:#5b4f38;
+  --mat:#4f6357; --mat-line:rgba(255,255,255,.07); --mat-line-strong:rgba(255,255,255,.14);
+  --shadow:0 10px 30px rgba(0,0,0,.25); --focus:#9db7cc; color-scheme:dark;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background-color:var(--bg);background-image:radial-gradient(var(--dot) 2.2px,transparent 2.8px);background-size:28px 28px;color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6}
-.bunting{display:flex;height:30px;overflow:hidden;position:relative;padding-left:max(4px,env(safe-area-inset-left,0px));padding-right:max(4px,env(safe-area-inset-right,0px))}
-.bunting::before{content:"";position:absolute;left:0;right:0;top:3px;height:2px;background:var(--line)}
-.bunting span{flex:none;width:0;height:0;margin-right:6px;border-left:15px solid transparent;border-right:15px solid transparent;border-top:24px solid var(--c);position:relative;top:4px}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.7}
+.bunting{display:flex;height:8px;overflow:hidden}
+.bunting span{flex:1 0 34px;height:100%;background:var(--c);opacity:.75}
 .app{max-width:1240px;margin:0 auto;padding-block:10px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
 header.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.seal{flex:none;width:58px;height:58px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--font-display);font-size:30px;transform:rotate(-8deg);box-shadow:0 4px 0 var(--accent-deep),inset 0 0 0 4px rgba(255,255,255,.35)}
+.seal{flex:none;width:56px;height:56px;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent);display:grid;place-items:center;font-family:var(--font-display);font-weight:600;font-size:26px;box-shadow:inset 0 0 0 4px var(--bg),inset 0 0 0 5px var(--line)}
 .brand{flex:1 1 260px;min-width:0}
-header h1{margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(30px,5vw,42px);line-height:1.1;letter-spacing:.04em}
+header h1{margin:0;font-family:var(--font-display);font-weight:600;font-size:clamp(28px,4.6vw,40px);line-height:1.2;letter-spacing:.14em;color:var(--ink)}
 header h1 span{display:inline-block}
-header h1 span:nth-child(6n+1){color:var(--accent);transform:rotate(-4deg)}
-header h1 span:nth-child(6n+2){color:#e89a00;transform:translateY(-3px)}
-header h1 span:nth-child(6n+3){color:var(--mint);transform:rotate(3deg)}
-header h1 span:nth-child(6n+4){color:var(--sky);transform:translateY(2px)}
-header h1 span:nth-child(6n+5){color:var(--grape);transform:rotate(-3deg)}
-header h1 span:nth-child(6n+6){color:var(--accent);transform:translateY(-2px)}
-header h1 .dot{color:var(--muted)!important;transform:none!important}
-header p{margin:4px 0 0;color:var(--muted);font-size:15px}
-.modes{display:flex;gap:4px;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:4px;box-shadow:0 3px 0 var(--line)}
-.modes button{min-height:44px;padding:6px 16px;border:none;border-radius:999px;background:none;color:var(--ink);font-family:var(--font-display);font-size:17px;cursor:pointer;white-space:nowrap}
+header h1 .dot{color:var(--accent);margin:0 .05em}
+header p{margin:6px 0 0;color:var(--muted);font-size:15px;max-width:60ch}
+.modes{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;box-shadow:none}
+.modes button{min-height:44px;padding:6px 18px;border:none;border-radius:999px;background:none;color:var(--muted);font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:.08em;cursor:pointer;white-space:nowrap}
 .modes button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
 @media (max-width:480px){ .modes{width:100%} .modes button{flex:1;padding:6px 6px;font-size:16px} }
 .work{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:22px;align-items:start}
 @media (max-width:920px){.work{grid-template-columns:minmax(0,1fr)}}
 .stage-col{min-width:0;display:flex;justify-content:center}
-.stage-wrap{position:relative;width:100%;max-width:min(100%,calc(100vh - 200px));min-width:min(100%,320px);aspect-ratio:1/1;background:var(--mat);border-radius:28px;overflow:hidden;border:6px solid var(--surface);box-shadow:0 6px 0 var(--line)}
+.stage-wrap{position:relative;width:100%;max-width:min(100%,calc(100vh - 200px));min-width:min(100%,320px);aspect-ratio:1/1;background:var(--mat);border-radius:20px;overflow:hidden;border:none;box-shadow:var(--shadow)}
 #stage{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
 .fsbtn{position:absolute;top:12px;right:12px;min-height:40px;padding:4px 14px;border:none;border-radius:999px;background:rgba(30,20,20,.6);color:#fff;font:inherit;font-size:15px;cursor:pointer;z-index:3}
 .fscap,.fsnav{display:none}
@@ -85,7 +79,7 @@ header p{margin:4px 0 0;color:var(--muted);font-size:15px}
 .stage-wrap:fullscreen{width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border:none;border-radius:0}
 .stage-wrap.is-fs .fsbtn,.stage-wrap:fullscreen .fsbtn{top:max(12px,calc(env(safe-area-inset-top,0px) + 8px));right:max(12px,calc(env(safe-area-inset-right,0px) + 8px));min-height:48px;font-size:17px;padding:4px 18px;background:rgba(30,20,20,.75)}
 .stage-wrap.is-fs .fscap,.stage-wrap:fullscreen .fscap{display:flex;flex-direction:column;gap:4px;position:absolute;top:max(14px,env(safe-area-inset-top,0px));left:max(16px,env(safe-area-inset-left,0px));right:170px;pointer-events:none}
-.fscap b{font-family:var(--font-display);font-weight:400;font-size:clamp(26px,3.6vw,52px);color:#ffe27a;text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.fscap b{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3.6vw,50px);color:#f3e2bd;text-shadow:0 2px 0 rgba(0,0,0,.35)}
 .fscap span{font-size:clamp(18px,2.2vw,32px);color:#fff;max-width:28em;text-shadow:0 2px 6px rgba(0,0,0,.5);line-height:1.5}
 .stage-wrap.is-fs .fsnav,.stage-wrap:fullscreen .fsnav{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:10px;position:absolute;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:max(14px,calc(env(safe-area-inset-bottom,0px) + 8px));max-width:720px;margin-left:auto}
 .fsnav button{min-height:60px;padding:6px 10px;border:none;border-radius:999px;background:rgba(255,255,255,.92);color:#3b2b2b;font-family:var(--font-display);font-size:22px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.25)}
@@ -97,7 +91,7 @@ header p{margin:4px 0 0;color:var(--muted);font-size:15px}
 @media (max-width:920px){
   body.lesson-mode .mbar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:2px solid var(--line);box-shadow:0 -4px 14px rgba(0,0,0,.08);padding-block:8px calc(8px + env(safe-area-inset-bottom,0px));padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px))}
   body.lesson-mode{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
-  .mbar button{min-height:54px;min-width:84px;padding:4px 12px;white-space:nowrap;border:2px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font-family:var(--font-display);font-size:19px;cursor:pointer;box-shadow:0 3px 0 var(--line)}
+  .mbar button{min-height:54px;min-width:84px;padding:4px 12px;white-space:nowrap;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font-family:var(--font-display);font-size:19px;cursor:pointer;box-shadow:none}
   .mbar #mNext{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 3px 0 var(--accent-deep)}
   .mbar .mid{min-width:0;text-align:center;line-height:1.25;cursor:pointer;background:none;border:none;color:var(--ink);font:inherit;box-shadow:none}
   .mbar .mid small{display:block;font-size:13px;color:var(--muted)}
@@ -110,47 +104,47 @@ header p{margin:4px 0 0;color:var(--muted);font-size:15px}
 .hud span{background:rgba(30,20,20,.6);color:#fff;padding:6px 14px;border-radius:999px;font-size:15px;line-height:1.4;max-width:100%}
 .hud .tag{font-family:var(--font-display);font-size:16px}
 .hud .tag:empty{display:none}
-.panel{min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:28px;padding:20px;display:flex;flex-direction:column;gap:16px;box-shadow:0 6px 0 var(--line)}
+.panel{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:20px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow)}
 .panel section{display:flex;flex-direction:column;gap:16px}
 .group{display:flex;flex-direction:column;gap:8px}
-.gh{margin:0;font-family:var(--font-display);font-weight:400;font-size:26px;line-height:1.2}
+.gh{margin:0;font-family:var(--font-display);font-weight:600;font-size:24px;line-height:1.3;letter-spacing:.06em}
 .label{font-size:14px;color:var(--muted);font-weight:700;letter-spacing:.05em}
 .lhead{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
-.lnum{font-family:var(--font-display);font-size:15px;background:var(--sun);color:#3b2b2b;padding:2px 12px;border-radius:999px;transform:rotate(-2deg)}
-.lhead h2{margin:0;font-family:var(--font-display);font-weight:400;font-size:38px;line-height:1.1}
+.lnum{font-size:13px;letter-spacing:.12em;color:var(--accent);font-weight:700}
+.lhead h2{margin:0;font-family:var(--font-display);font-weight:600;font-size:34px;line-height:1.25;letter-spacing:.06em}
 .meta{display:flex;flex-wrap:wrap;gap:6px}
-.chip{display:inline-flex;align-items:center;gap:6px;font-size:14px;padding:3px 12px;border-radius:999px;background:var(--bg);border:2px solid var(--line)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:14px;padding:3px 12px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
 .chip i{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}
-.stars{color:#f2a900;letter-spacing:1px}
+.stars{color:#b8894a;letter-spacing:1px}
 .mats{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
 .mats li{display:flex;align-items:center;gap:8px;font-size:15px;line-height:1.45}
 .mats li i{flex:none;width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.2)}
 .mats li i.tool{border-radius:4px;background:var(--line)}
 .seg,.row{display:flex;flex-wrap:wrap;gap:8px}
-.seg button,.row button,.ghost{flex:1 1 auto;min-height:46px;padding:8px 14px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;font:inherit;font-size:15px;font-weight:500;cursor:pointer;box-shadow:0 3px 0 var(--line);transition:transform .12s,box-shadow .12s}
+.seg button,.row button,.ghost{flex:1 1 auto;min-height:46px;padding:8px 14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;font:inherit;font-size:15px;font-weight:500;cursor:pointer;box-shadow:none;transition:transform .12s,box-shadow .12s}
 .seg button:active,.row button:active,.ghost:active,.navrow button:active,.cta:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink);box-shadow:0 3px 0 var(--muted)}
 button:disabled{opacity:.45;cursor:not-allowed}
 .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
-.swatches button{display:flex;align-items:center;gap:6px;min-height:44px;padding:4px 8px 4px 4px;border:2px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font:inherit;font-size:14px;cursor:pointer}
+.swatches button{display:flex;align-items:center;gap:6px;min-height:44px;padding:4px 8px 4px 4px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font:inherit;font-size:14px;cursor:pointer}
 .swatches button i{flex:none;width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
 .swatches button[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
 .stripes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
-.stripes li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:6px;padding:4px 6px 4px 4px;border:2px solid var(--line);border-radius:999px;background:var(--surface)}
+.stripes li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:6px;padding:4px 6px 4px 4px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
 .stripes li[aria-current="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
 .stripes .pick{display:flex;align-items:center;gap:8px;min-height:40px;border:none;background:none;color:var(--ink);font:inherit;font-size:15px;cursor:pointer;text-align:left;padding:0 4px;min-width:0}
 .stripes .pick i{flex:none;width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}
 .stripes .pick small{color:var(--muted);font-size:13px}
 .stripes .w{display:flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums;font-size:15px}
-.stripes .w button,.stripes .del{width:40px;height:40px;border:2px solid var(--line);border-radius:50%;background:var(--surface);color:var(--ink);font:inherit;font-size:18px;cursor:pointer;line-height:1}
-.stepcard{background:var(--accent-soft);border:2px dashed var(--accent);border-radius:22px;padding:14px 18px;display:flex;flex-direction:column;gap:6px}
+.stripes .w button,.stripes .del{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--ink);font:inherit;font-size:18px;cursor:pointer;line-height:1}
+.stepcard{background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:4px 16px 16px 4px;padding:14px 18px;display:flex;flex-direction:column;gap:6px}
 .sc-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .sc-top span{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
-.sc-top b{font-family:var(--font-display);font-weight:400;font-size:26px;line-height:1.2}
+.sc-top b{font-family:var(--font-display);font-weight:600;font-size:24px;line-height:1.3;letter-spacing:.04em}
 .stepcard p{margin:0;font-size:18px;line-height:1.65}
 .stepcard p.tip{font-size:15px;color:var(--muted)}
 .navrow{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:8px}
-.navrow button{min-height:56px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;font:inherit;font-size:16px;font-weight:500;cursor:pointer;box-shadow:0 3px 0 var(--line)}
+.navrow button{min-height:56px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;font:inherit;font-size:16px;font-weight:500;cursor:pointer;box-shadow:none}
 .steplist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
 .steplist button{width:100%;display:flex;align-items:center;gap:10px;min-height:38px;padding:4px 10px;border:none;border-radius:999px;background:none;color:var(--muted);font:inherit;font-size:15px;cursor:pointer;text-align:left}
 .steplist .n{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;border:2px solid currentColor;font-variant-numeric:tabular-nums}
@@ -160,39 +154,38 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .steplist button[aria-current="step"]{background:var(--accent-soft);color:var(--ink);font-weight:700}
 .steplist button[aria-current="step"] .n{background:var(--accent);border-color:var(--accent);color:#fff}
 .howto{margin:0;font-size:15px;background:var(--accent-soft);border-radius:14px;padding:8px 12px}
-.cta{min-height:56px;border:none!important;border-radius:999px!important;background:var(--accent)!important;color:var(--accent-ink)!important;font-family:var(--font-display)!important;font-size:20px!important;cursor:pointer;letter-spacing:.06em;box-shadow:0 4px 0 var(--accent-deep)!important}
+.cta{min-height:56px;border:none!important;border-radius:999px!important;background:var(--accent)!important;color:var(--accent-ink)!important;font-family:var(--font-display)!important;font-weight:600;font-size:19px!important;cursor:pointer;letter-spacing:.1em;box-shadow:none!important}
 .ghost{width:100%}
 .note{margin:0;font-size:14px;color:var(--muted)}
-.a4box{background:var(--bg);border:2px solid var(--line);border-radius:22px;padding:12px}
-.a4box img{width:100%;max-width:100%;aspect-ratio:210/297;display:block;background:#fff;border-radius:6px;box-shadow:0 3px 0 var(--line);transform:rotate(-1deg)}
-.txt{min-height:44px;border:2px solid var(--line);border-radius:999px;padding:6px 16px;font:inherit;font-size:16px;background:var(--surface);color:var(--ink);width:100%}
+.a4box{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:12px}
+.a4box img{width:100%;max-width:100%;aspect-ratio:210/297;display:block;background:#fff;border-radius:4px;box-shadow:var(--shadow)}
+.txt{min-height:44px;border:1px solid var(--line);border-radius:999px;padding:6px 16px;font:inherit;font-size:16px;background:var(--surface);color:var(--ink);width:100%}
 .library{display:flex;flex-direction:column;gap:14px}
 .libhead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.libhead h2{margin:0;font-family:var(--font-display);font-weight:400;font-size:30px}
+.libhead h2{margin:0;font-family:var(--font-display);font-weight:600;font-size:28px;letter-spacing:.1em}
 .libhead .cta{padding:0 22px;min-height:50px;font-size:18px!important}
 .lib-group{display:flex;flex-direction:column;gap:8px}
-.lib-group h3{margin:0;font-family:var(--font-display);font-weight:400;font-size:22px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.lib-group h3{margin:0;font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:.08em;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .lib-group h3 small{font-family:var(--font-body);font-size:14px;color:var(--muted)}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:12px}
-.card{display:flex;flex-direction:column;gap:4px;padding:8px 8px 10px;border:2px solid var(--line);background:var(--surface);border-radius:20px;cursor:pointer;color:var(--ink);font:inherit;text-align:left;box-shadow:0 4px 0 var(--line);transition:transform .15s}
-.card:hover{transform:rotate(-2deg) translateY(-3px)}
-.card:nth-child(even):hover{transform:rotate(2deg) translateY(-3px)}
-.card .th{background:var(--mat);border-radius:14px;aspect-ratio:1;display:grid;place-items:center;overflow:hidden}
+.card{display:flex;flex-direction:column;gap:4px;padding:8px 8px 10px;border:1px solid var(--line);background:var(--surface);border-radius:20px;cursor:pointer;color:var(--ink);font:inherit;text-align:left;box-shadow:var(--shadow);transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.card .th{background:var(--mat);border-radius:10px;aspect-ratio:1;display:grid;place-items:center;overflow:hidden}
 .card img{width:100%;aspect-ratio:1;display:block}
 .card img:not([src]){visibility:hidden}
 .card .cn{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
-.card b{font-family:var(--font-display);font-weight:400;font-size:21px;line-height:1.2}
+.card b{font-family:var(--font-display);font-weight:600;font-size:19px;line-height:1.3;letter-spacing:.04em}
 .card .stars{font-size:13px}
-.card[aria-current="true"]{border-color:var(--accent);box-shadow:0 4px 0 var(--accent)}
-details.notes{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:14px 20px;box-shadow:0 4px 0 var(--line)}
-details.notes summary{cursor:pointer;font-family:var(--font-display);font-size:20px}
+.card[aria-current="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+details.notes{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:14px 20px;box-shadow:var(--shadow)}
+details.notes summary{cursor:pointer;font-family:var(--font-display);font-weight:600;font-size:19px;letter-spacing:.06em}
 .notes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 24px;margin-top:10px}
 .notes-grid h3{margin:0 0 4px;font-size:16px}
 .notes-grid p,.notes-grid ul{margin:0;color:var(--muted);font-size:15px;max-width:65ch}
 .notes-grid ul{padding-left:1.2em}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:10px 20px;border-radius:999px;font-size:15px;z-index:60;max-width:calc(100% - 32px);text-align:center;transition:opacity .3s}
 button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-@media (prefers-reduced-motion: reduce){ .card:hover,.card:nth-child(even):hover{transform:none} }
+@media (prefers-reduced-motion: reduce){ .card:hover{transform:none} }
 </style>
 
 <div class="bunting" id="bunting" aria-hidden="true"></div>
@@ -382,7 +375,7 @@ const lerp = (a,b,t) => a + (b-a)*t;
 const ease = t => t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
 const easeOut = t => 1-Math.pow(1-t,3);
 const FONT = '"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
-const DISPLAY = '"Huninn","Noto Sans TC","PingFang TC",sans-serif';
+const DISPLAY = '"Noto Serif TC","Songti TC",serif';
 function RNG(seed){ let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ t>>>15, t | 1); t ^= t + Math.imul(t ^ t>>>7, t | 61); return ((t ^ t>>>14) >>> 0) / 4294967296; }; }
 const hash = s => { let h = 2166136261; for (const ch of s){ h ^= ch.codePointAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
 function shade(hex, f){ const n = parseInt(hex.slice(1),16); let r = n>>16&255, g = n>>8&255, b = n&255;
@@ -398,7 +391,7 @@ const COLORS = {
   green:{n:'深綠',h:'#2f8a55'}, sky:{n:'淺藍',h:'#86cdf0'}, blue:{n:'藍',h:'#3b6fd1'}, purple:{n:'紫',h:'#8b5fc8'},
   pink:{n:'粉紅',h:'#f390b5'}, brown:{n:'咖啡',h:'#8d5b3b'}, black:{n:'黑',h:'#3a3a3a'}, white:{n:'白',h:'#fbf8f1'}
 };
-const CUTE = ['#ef4b4b','#ffc83d','#38c1a0','#58a8f0','#9b6cf0','#ff8fb1'];
+const CUTE = ['#a8644b','#c9a46a','#7f9c86','#7d98ad','#9a88a8','#c98e7e'];
 const stars = n => '★'.repeat(n) + '☆'.repeat(3-n);
 
 /* =====================================================================
@@ -470,7 +463,7 @@ function weaveGeo(les){
   chords.forEach(([a,b], i) => { if (i) segs.push(back(chords[i-1][1], a)); const [ax,ay] = nP(a), [bx,by] = nP(b); segs.push({type:'front', chord:true, pts:[ax, ay, (ax+bx)/2, (ay+by)/2, bx, by]}); });
   segs.push(back(chords[m-1][1], left));
   segs.push({type:'front', pts:[...nP(left), 0, 0]});
-  { const w = []; for (let i=0;i<=48;i++){ const q = -Math.PI/2 + i/48*TAU*2, r = lerp(1.9, .45, i/48); w.push(Math.cos(q)*r, Math.sin(q)*r); } segs.push({type:'wrap', pts:w}); }
+  { const w = []; for (let i=0;i<=48;i++){ const q = -Math.PI/2 + i/48*TAU*2, r = lerp(1, .9, i/48); w.push(Math.cos(q)*r, Math.sin(q)*r); } segs.push({type:'wrap', pts:w}); }
   G.starR = Math.abs(Math.cos(off*Math.PI/N))*(rimN - .05);
   let L = 0; for (const s of segs){ let l = 0; for (let i=2;i<s.pts.length;i+=2) l += Math.hypot(s.pts[i]-s.pts[i-2], s.pts[i+1]-s.pts[i-1]); s.len = l; s.at = L; L += l; }
   G.warpSegs = segs; G.warpLen = L; G.chords = chords; G.left = left;
@@ -575,14 +568,14 @@ function drawScissors(ctx, x, y, ang, open, s){
   for (const sg of [-1,1]){ ctx.save(); ctx.rotate(sg*open*.35);
     ctx.fillStyle='rgba(0,0,0,.18)'; ctx.beginPath(); ctx.moveTo(.05,.08); ctx.lineTo(1.75,.06*sg+.08); ctx.lineTo(.05,.26*sg+.08); ctx.fill();
     ctx.fillStyle='#c9ced6'; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(1.7,.05*sg); ctx.lineTo(0,.24*sg); ctx.closePath(); ctx.fill(); ctx.strokeStyle='#8a929c'; ctx.lineWidth=.04; ctx.stroke();
-    ctx.strokeStyle = sg<0 ? '#ef4b4b' : '#e04040'; ctx.lineWidth=.17; ctx.beginPath(); ctx.ellipse(-.62, .32*sg, .42, .28, 0, 0, TAU); ctx.stroke();
+    ctx.strokeStyle = sg<0 ? '#a8644b' : '#8f5440'; ctx.lineWidth=.17; ctx.beginPath(); ctx.ellipse(-.62, .32*sg, .42, .28, 0, 0, TAU); ctx.stroke();
     ctx.restore(); }
   ctx.fillStyle='#5b6470'; ctx.beginPath(); ctx.arc(0,0,.09,0,TAU); ctx.fill(); ctx.restore();
 }
 function drawNeedle(ctx, x, y, ang, s=1){
   ctx.save(); ctx.translate(x,y); ctx.rotate(ang); ctx.scale(s,s);
   ctx.fillStyle='rgba(0,0,0,.18)'; ctx.beginPath(); ctx.roundRect(-.35+.1, -.16+.14, 3.0, .32, .16); ctx.fill();
-  ctx.fillStyle='#3d8fd6'; ctx.beginPath(); ctx.moveTo(-.35,-.16); ctx.lineTo(2.3,-.12); ctx.lineTo(2.85,0); ctx.lineTo(2.3,.12); ctx.lineTo(-.35,.16); ctx.arcTo(-.5,0,-.35,-.16,.16); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#6b8ea8'; ctx.beginPath(); ctx.moveTo(-.35,-.16); ctx.lineTo(2.3,-.12); ctx.lineTo(2.85,0); ctx.lineTo(2.3,.12); ctx.lineTo(-.35,.16); ctx.arcTo(-.5,0,-.35,-.16,.16); ctx.closePath(); ctx.fill();
   ctx.fillStyle='rgba(255,255,255,.4)'; ctx.fillRect(.4,-.11,1.7,.06);
   ctx.fillStyle='#fffaf2'; ctx.beginPath(); ctx.ellipse(-.05,0,.2,.07,0,0,TAU); ctx.fill(); ctx.restore();
 }
@@ -649,10 +642,10 @@ function drawWeave(ctx, G, v, T){
     ctx.setLineDash([.2,.14]); ctx.strokeStyle='#b5a69d'; ctx.beginPath(); ctx.arc(0,0,G.notchIn,0,TAU); ctx.stroke();
     ctx.setLineDash([]); ctx.strokeStyle='#5b4c47'; ctx.lineWidth=.06; ctx.beginPath();
     for (let k=0;k<G.N;k++){ const e = clamp(v.markT*G.N - k, 0, 1); if (e <= 0) break; const a = G.ang(k); ctx.moveTo(0,0); ctx.lineTo(...pol(a, PR*e)); } ctx.stroke();
-    ctx.strokeStyle='#ef4b4b'; ctx.lineWidth=.09; ctx.beginPath(); ctx.moveTo(-.4,0); ctx.lineTo(.4,0); ctx.moveTo(0,-.4); ctx.lineTo(0,.4); ctx.stroke();
+    ctx.strokeStyle='#a8644b'; ctx.lineWidth=.09; ctx.beginPath(); ctx.moveTo(-.4,0); ctx.lineTo(.4,0); ctx.moveTo(0,-.4); ctx.lineTo(0,.4); ctx.stroke();
     ctx.restore(); }
   // 經線
-  if (v.warpT > 0) drawWarp(ctx, G, v.warpT, v.backA);
+  if (v.warpT > 0) drawWarp(ctx, G, v.warpT, v.backA, v.cinch);
   // 緯線
   if (v.wt > 0) drawWeft(ctx, G, v);
   if (v.deco.beads){ const cols = ['#f390b5','#f6c636','#86cdf0'];
@@ -672,18 +665,20 @@ function warpTip(G, t){
   return {x:tip[0], y:tip[1], type:seg.type};
 }
 const warpGather = (G, t) => { const w = G.warpSegs[G.warpSegs.length-1]; return clamp((t*G.warpLen - w.at)/w.len, 0, 1); };
-function drawWarp(ctx, G, t, backA){
-  const target = t*G.warpLen, g = ease(warpGather(G, t));
+function drawWarp(ctx, G, t, backA, cinch){
+  // cinch：中心繞好兩圈後「拉緊」，線圈縮小、所有線往中心收
+  const target = t*G.warpLen, c = cinch ?? (t >= 1 ? 1 : 0), g = ease(c), rw = lerp(G.starR + .4, .4, g);
   for (const s of G.warpSegs){ if (s.at >= target) break;
     let left = target - s.at, P = s.pts, n = 1, tail = null;
     if (s.chord && g > 0) P = [P[0], P[1], P[2]*(1-g), P[3]*(1-g), P[4], P[5]];
     for (let i=2;i<P.length;i+=2){ const l = Math.hypot(P[i]-P[i-2], P[i+1]-P[i-1]); if (left >= l){ n++; left -= l; } else { const f = left/l; tail = [P[i-2]+(P[i]-P[i-2])*f, P[i-1]+(P[i+1]-P[i-1])*f]; break; } }
+    if (s.type === 'wrap'){ P = P.map(v => v*rw); if (tail) tail = [tail[0]*rw, tail[1]*rw]; }
     const path = flatPath(P, n, tail);
     if (s.type === 'back'){ if (backA > 0){ ctx.save(); ctx.globalAlpha = backA*.9; ctx.setLineDash([.28,.2]); ctx.strokeStyle = '#fff'; ctx.lineWidth = .09; ctx.stroke(path); ctx.restore(); } }
     else strokeYarn(ctx, path, G.warp, WARP_W);
   }
   if (backA > 0){ const [x,y] = pol(G.ang(0) - .12, PR + .9); ctx.save(); ctx.globalAlpha = backA; ctx.translate(x,y); ctx.rotate(G.ang(0)); ctx.fillStyle='rgba(235,225,200,.9)'; ctx.fillRect(-.45,-.3,.9,.6); ctx.restore(); }
-  if (t >= 1){ ctx.fillStyle = shade(G.warp,-.25); ctx.beginPath(); ctx.arc(0,0,.42,0,TAU); ctx.fill(); ctx.fillStyle = G.warp; ctx.beginPath(); ctx.arc(-.05,-.05,.3,0,TAU); ctx.fill(); }
+  if (c >= 1){ ctx.fillStyle = shade(G.warp,-.25); ctx.beginPath(); ctx.arc(0,0,.42,0,TAU); ctx.fill(); ctx.fillStyle = G.warp; ctx.beginPath(); ctx.arc(-.05,-.05,.3,0,TAU); ctx.fill(); }
 }
 function partialFlat(s, upto){
   const T = s.T; let n = 0; while (n < T.length && T[n] <= upto) n++;
@@ -969,7 +964,7 @@ function buildWeaveSteps(G){
   if (les.petals) steps.push({type:'petal', title:'把盤緣剪成花瓣', text:`兩個記號之間剪成一片圓弧，一圈剪出 ${N} 片花瓣，記號剛好在兩片花瓣中間。`, tip:'剪刀不動、轉紙盤，弧線會比較順。'});
   const depth = (rimR(G, G.ang(0), 1) - G.notchIn).toFixed(1).replace(/\.0$/,'');
   steps.push({type:'cut', title:`剪出 ${N} 個缺口`, text:`在每個記號上往中心剪一刀，長約 ${depth} 公分。一邊剪一邊數：1、2、3……一共 ${N} 個缺口。`, tip:'剪刀拿不穩的話，可以由帶領者先剪好，學員負責數數和檢查。'});
-  steps.push({type:'warp', title:'繞放射線（經線）', text:`毛線從 1 號缺口穿到背面，線尾用膠帶貼住。再照順序直直拉到對面的缺口：${G.warpText}（每拉完一條，在背面移到隔壁號碼）。最後從 ${G.left+1} 號拉到中心，在中心繞兩圈，把所有線收在一起再打結。`, tip:'線都是直線，不用圖釘：對面的缺口剛好偏一點，所以線會在中心附近交叉成一個小星星；最後繞中心那兩圈，會把它們拉成正中間的放射線。'});
+  steps.push({type:'warp', title:'繞放射線（經線）', text:`毛線從 1 號缺口穿到背面，線尾用膠帶貼住。再照順序直直拉到對面的缺口：${G.warpText}（每拉完一條，在背面移到隔壁號碼）。最後從 ${G.left+1} 號拉到中心，在交叉的地方外面繞兩圈，再用力拉緊：線圈會縮小，把所有線往中心收在一起，最後打結。`, tip:'線都是直線，不用圖釘：對面的缺口剛好偏一點，所以線會在中心附近交叉成一個小星星；繞兩圈後拉緊，線圈縮小，就會把它們收成從正中間出發的放射線。'});
   if (G.web){
     const s = G.stripes[0], mid = s.ta + (s.tb - s.ta)*.3;
     steps.push({type:'weave', stripe:0, ta:0, tb:mid, swatch:s.hex, title:'從中心開始繞', text:'白色毛線穿進塑膠針，線頭綁在中心。針往旁邊的放射線走，在每一條線上「繞一圈」再往下一條，就像蜘蛛在吐絲。', tip:'每圈之間留約 0.7 公分空隙，網子才看得清楚。'});
@@ -1054,10 +1049,10 @@ function badge(ctx, n, x, y, r=17, bg='#fff'){ ctx.save(); ctx.fillStyle = bg; c
 function sparkle(ctx, cx, cy, R, t){ const rng = RNG(7);
   for (let i=0;i<16;i++){ const a = rng()*TAU, d = R + 20 + rng()*60, x = cx + Math.cos(a)*d, y = cy + Math.sin(a)*d*.95;
     const ph = clamp(t*2 - i/16, 0, 1); if (ph <= 0) continue; const s = (9 + rng()*12)*Math.sin(ph*Math.PI*.5+.2);
-    ctx.save(); ctx.fillStyle = ['#ffe27a','#ffffff','#ffc83d','#ff8fb1'][i%4]; ctx.beginPath();
+    ctx.save(); ctx.fillStyle = ['#f0dcae','#ffffff','#d9bb7c','#e3b8a8'][i%4]; ctx.beginPath();
     for (let k=0;k<8;k++){ const aa = k*Math.PI/4, rr = k%2 ? s*.4 : s; k ? ctx.lineTo(x+Math.cos(aa)*rr, y+Math.sin(aa)*rr) : ctx.moveTo(x+Math.cos(aa)*rr, y+Math.sin(aa)*rr); } ctx.closePath(); ctx.fill(); ctx.restore(); }
   if (isFs() && !recording) return;
-  ctx.save(); ctx.globalAlpha = clamp(t*1.6,0,1); pill(ctx, '完成！', 500, 930 - 40*easeOut(clamp(t*1.4,0,1)) + 40, 44, '#ef4b4b'); ctx.restore();
+  ctx.save(); ctx.globalAlpha = clamp(t*1.6,0,1); pill(ctx, '完成！', 500, 930 - 40*easeOut(clamp(t*1.4,0,1)) + 40, 44, '#a8644b'); ctx.restore();
 }
 function yarnBallIcon(ctx, x, y, hex, r=32){
   ctx.save(); ctx.fillStyle='rgba(0,0,0,.2)'; ctx.beginPath(); ctx.arc(x+4,y+6,r,0,TAU); ctx.fill();
@@ -1102,16 +1097,16 @@ function drawTapeInset(ctx, t, G){
     ctx.fillStyle='rgba(0,0,0,.15)'; ctx.fillRect(-46+3, -18+4, 92, 36); ctx.fillStyle='rgba(236,226,200,.92)'; ctx.fillRect(-46, -18, 92, 36);
     ctx.strokeStyle='rgba(150,130,100,.45)'; ctx.lineWidth = 2; ctx.beginPath(); for (let x=-46;x<=46;x+=6){ ctx.moveTo(x,-18); ctx.lineTo(x+3,-21); } for (let x=-46;x<=46;x+=6){ ctx.moveTo(x,18); ctx.lineTo(x+3,21); } ctx.stroke(); ctx.restore(); }
   ctx.fillStyle='#3b2b2b'; ctx.font = `22px ${DISPLAY}`; ctx.textAlign='center'; ctx.fillText('紙盤背面', cx, cy + R - 22);
-  badge(ctx, 1, cx + 30, top - 16, 15, '#ffe27a');
+  badge(ctx, 1, cx + 30, top - 16, 15, '#f0dcae');
   ctx.restore();
-  ctx.save(); ctx.globalAlpha = a; pill(ctx, t < .42 ? '線從 1 號缺口穿到背面' : '線尾用膠帶貼住', cx, cy + R + 34, 24, '#3d8fd6'); ctx.restore();
+  ctx.save(); ctx.globalAlpha = a; pill(ctx, t < .42 ? '線從 1 號缺口穿到背面' : '線尾用膠帶貼住', cx, cy + R + 34, 24, '#6b8ea8'); ctx.restore();
 }
 function drawKnotInset(ctx, t, c1, c2){
   const cx = 790, cy = 250, R = 128, a = clamp(t*4, 0, 1)*clamp((1-t)*10, 0, 1);
   if (a <= 0) return;
   ctx.save(); ctx.globalAlpha = a;
   ctx.fillStyle='rgba(0,0,0,.25)'; ctx.beginPath(); ctx.arc(cx+5, cy+7, R+8, 0, TAU); ctx.fill();
-  ctx.fillStyle='#fffaf3'; ctx.beginPath(); ctx.arc(cx, cy, R+8, 0, TAU); ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle='#ffc83d'; ctx.stroke();
+  ctx.fillStyle='#fffaf3'; ctx.beginPath(); ctx.arc(cx, cy, R+8, 0, TAU); ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle='#d9bb7c'; ctx.stroke();
   ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.clip();
   const e1 = ease(clamp(t/.35, 0, 1)), e2 = ease(clamp((t-.35)/.35, 0, 1)), e3 = ease(clamp((t-.7)/.25, 0, 1)), w = 26;
   const kx = cx, ky = cy + 10;
@@ -1135,18 +1130,19 @@ function render(){
     if (V.badgeA > 0) drawNotchBadges(ctx, LD, C, V.badgeA, V.cutF);
     if (V.tmplA > 0){ ctx.save(); ctx.globalAlpha = V.tmplA; ctx.fillStyle='#5b4c47'; ctx.font = `${Math.max(14, C.k*.42)}px ${DISPLAY}`; ctx.textAlign='center'; ctx.textBaseline='middle';
       for (let k=0;k<LD.N && k < V.markT*LD.N;k++){ const [x,y] = ws(...pol(LD.ang(k), 6.1)); ctx.fillText(`${Math.round(k*360/LD.N)}°`, x, y); } ctx.restore();
-      if (V.markT > .3) pill(ctx, `${LD.N} 個記號・每格 360° ÷ ${LD.N} ≈ ${LD.deg}°`, 500, ws(0, PR)[1] + 50, 26, '#ef4b4b'); }
+      if (V.markT > .3) pill(ctx, `${LD.N} 個記號・每格 360° ÷ ${LD.N} ≈ ${LD.deg}°`, 500, ws(0, PR)[1] + 50, 26, '#a8644b'); }
     if (V.stype === 'cut' && busy) pill(ctx, `剪缺口：${Math.min(LD.N, Math.floor(V.cutF + .3))} / ${LD.N}`, 500, 70, 30);
     if (V.tapeT >= 0) drawTapeInset(ctx, V.tapeT, LD);
+    if (V.stype === 'warp' && busy && V.warpT >= 1 && V.cinch < 1) pill(ctx, '拉緊！線圈縮小，所有線往中心收', 500, ws(0, PR)[1] + 50, 26, '#a8644b');
     if (V.stype === 'warp' && busy && V.tapeT < 0 && V.warpT > 0 && V.warpT < 1){ const tp = warpTip(LD, V.warpT);
-      if (tp.type === 'wrap') pill(ctx, '中心繞兩圈，把線收在一起', 500, ws(0, PR)[1] + 50, 26, '#ef4b4b');
+      if (tp.type === 'wrap') pill(ctx, '在交叉的地方外面繞兩圈', 500, ws(0, PR)[1] + 50, 26, '#a8644b');
       else if (tp.type === 'front') pill(ctx, '直直拉到對面的缺口', 500, ws(0, PR)[1] + 50, 26, 'rgba(20,30,25,.8)'); }
-    if (V.stype === 'warp' && busy){ const tp = warpTip(LD, V.warpT); if (tp.type === 'back' && V.tapeT < 0){ const [x,y] = ws(tp.x*1.08, tp.y*1.08); pill(ctx, '在背面移到隔壁', x, y + (tp.y > 0 ? 40 : -40), 22, '#3d8fd6'); } }
+    if (V.stype === 'warp' && busy){ const tp = warpTip(LD, V.warpT); if (tp.type === 'back' && V.tapeT < 0){ const [x,y] = ws(tp.x*1.08, tp.y*1.08); pill(ctx, '在背面移到隔壁', x, y + (tp.y > 0 ? 40 : -40), 22, '#6b8ea8'); } }
     if (V.wActive && V.wt > 0){
       const big = LD.les.basic && V.wt < TAU*3, win = LD.dA*1.6;
       for (let i=LD.cross.length-1;i>=0;i--){ const c = LD.cross[i]; if (c.t > V.wt) continue; if (V.wt - c.t > win) break;
         const al = 1 - (V.wt - c.t)/win, [x,y] = ws(...pol(LD.ang(c.k), c.r + LD.yw + .9)), txt = LD.web ? '繞一圈' : c.over ? '上' : '下';
-        ctx.save(); ctx.globalAlpha = al; pill(ctx, txt, x, y, big ? 34 : 24, LD.web ? 'rgba(20,30,25,.8)' : c.over ? '#e89a00' : '#3d6fd1'); ctx.restore(); }
+        ctx.save(); ctx.globalAlpha = al; pill(ctx, txt, x, y, big ? 34 : 24, LD.web ? 'rgba(20,30,25,.8)' : c.over ? '#b0884a' : '#5f7f99'); ctx.restore(); }
     }
     if (V.knotT >= 0){ const st = lessonSteps[S.lstep], s = LD.stripes[st.stripe], p = LD.stripes[st.stripe-1]; if (s && p) drawKnotInset(ctx, V.knotT, p.hex, s.hex); }
     if (V.prepT > 0) drawPrepRow(ctx, LD, V.prepT);
@@ -1159,18 +1155,18 @@ function render(){
         ctx.save(); ctx.globalAlpha = e; ctx.fillStyle='#fff'; ctx.font = `22px ${DISPLAY}`; ctx.textBaseline='bottom'; ctx.shadowColor='rgba(0,0,0,.45)'; ctx.shadowBlur=5; ctx.fillText(`${cl.name}色毛根 ${cl.txt}`, Math.max(20, x), y - (cl.pair ? 34 : 22)); ctx.restore(); });
       if (LD.les.extra){ ctx.save(); ctx.globalAlpha = V.prepT; pill(ctx, '另外準備：' + LD.les.extra.join('、'), 500, 880, 22); ctx.restore(); } }
     for (const m of f.marks){ const g = f.cl[m.cl].geo, j = Math.round(m.s*(g.length-1)), [x,y] = ws(g[j][0], g[j][1]);
-      ctx.save(); ctx.globalAlpha = (V.A === V.B ? 1 : clamp(V.t*2, 0, 1)); ctx.fillStyle='#ffe27a'; ctx.strokeStyle='#3b2b2b'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(x,y,10,0,TAU); ctx.fill(); ctx.stroke();
-      pill(ctx, m.text, x, y - 46, 24, '#ef4b4b'); ctx.restore(); }
+      ctx.save(); ctx.globalAlpha = (V.A === V.B ? 1 : clamp(V.t*2, 0, 1)); ctx.fillStyle='#f0dcae'; ctx.strokeStyle='#3b2b2b'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(x,y,10,0,TAU); ctx.fill(); ctx.stroke();
+      pill(ctx, m.text, x, y - 46, 24, '#a8644b'); ctx.restore(); }
     for (const tw of f.twists){ if (tw.step !== V.B || V.A === V.B || tw.a <= 0) continue;
       let x = tw.x, y = tw.y; if (tw.cl !== undefined){ const g = f.cl[tw.cl].geo, j = Math.round(tw.s*(g.length-1)); x = g[j][0]; y = g[j][1]; }
-      const [sx, sy] = ws(x, y); ctx.save(); ctx.globalAlpha = clamp(tw.a*2, 0, 1); pill(ctx, '扭 2 圈', sx, sy + 62, 24, '#e89a00'); ctx.restore(); }
+      const [sx, sy] = ws(x, y); ctx.save(); ctx.globalAlpha = clamp(tw.a*2, 0, 1); pill(ctx, '扭 2 圈', sx, sy + 62, 24, '#b0884a'); ctx.restore(); }
     if (V.doneT > 0) sparkle(ctx, 500, 500, 300, V.doneT);
   }
   drawCaption(ctx);
 }
 function drawNotchBadges(ctx, G, C, a, cutF=G.N){
   ctx.save(); ctx.globalAlpha = a; const r = clamp(C.k*.36, 11, 17);
-  for (let k=0;k<G.N;k++){ if (cutF < k+.5) continue; const [x,y] = pol(G.ang(k), PR + .75); badge(ctx, k+1, C.cx + C.k*x, C.cy + C.k*y, r, k === 0 ? '#ffe27a' : '#fff'); }
+  for (let k=0;k<G.N;k++){ if (cutF < k+.5) continue; const [x,y] = pol(G.ang(k), PR + .75); badge(ctx, k+1, C.cx + C.k*x, C.cy + C.k*y, r, k === 0 ? '#f0dcae' : '#fff'); }
   ctx.restore();
 }
 let rq = false;
@@ -1186,7 +1182,7 @@ function drawCaption(ctx){
   const lines = wrapText(ctx, caption.text, W-2*pad);
   const bh = pad*1.6 + 34*dpr + lines.length*30*dpr;
   ctx.fillStyle='rgba(10,20,15,.74)'; ctx.fillRect(0,0,W,bh);
-  ctx.fillStyle='#ffe27a'; ctx.font = `${28*dpr}px ${DISPLAY}`; ctx.textBaseline='top';
+  ctx.fillStyle='#f0dcae'; ctx.font = `${28*dpr}px ${DISPLAY}`; ctx.textBaseline='top';
   ctx.fillText(caption.title, pad, pad*.8);
   ctx.fillStyle='#fff'; ctx.font = `400 ${20*dpr}px ${FONT}`;
   lines.forEach((l,i) => ctx.fillText(l, pad, pad*.8+40*dpr+i*30*dpr));
@@ -1221,7 +1217,8 @@ async function animWeave(i, s, tok){
   if (s.type==='warp'){ V.badgeA = 1; V.backA = 1;
     if (!await tween(3000*spd(), t => V.tapeT = t, tok)) return false; V.tapeT = -1;
     const dur = clamp(G.N*1000, 6000, 14000)*spd();
-    if (!await tween(dur, t => V.warpT = t, tok)) return false; V.warpT = 1;
+    V.cinch = 0; if (!await tween(dur, t => V.warpT = t, tok)) return false; V.warpT = 1;
+    if (!await tween(2000*spd(), t => V.cinch = t, tok)) return false; V.cinch = 1;
     if (!await tween(700*spd(), t => { V.backA = 1-t; V.badgeA = 1-t; }, tok)) return false; V.backA = 0; V.badgeA = 0; return wait(300, tok); }
   if (s.type==='weave'){ V.wt = s.ta;
     if (s.knot){ if (!await tween(2600*spd(), t => V.knotT = t, tok)) return false; V.knotT = -1; }
@@ -1320,18 +1317,18 @@ async function saveFile(name, blob){
 }
 /* ---------- A4（200 dpi，實際大小）---------- */
 const MM = 200/25.4, CM = 10*MM;
-async function fontsReady(){ try { await Promise.all([document.fonts.load(`40px Huninn`), document.fonts.load(`500 30px "Noto Sans TC"`), document.fonts.load(`700 30px "Noto Sans TC"`)]); await document.fonts.ready; } catch(e){} }
+async function fontsReady(){ try { await Promise.all([document.fonts.load(`40px "Noto Serif TC"`), document.fonts.load(`500 30px "Noto Sans TC"`), document.fonts.load(`700 30px "Noto Sans TC"`)]); await document.fonts.ready; } catch(e){} }
 function bunting(c, Wd, h){ const bw = 12*MM; for (let i=0;i*bw<Wd;i++){ c.fillStyle = CUTE[i%CUTE.length]; c.beginPath(); c.moveTo(i*bw+MM,0); c.lineTo(i*bw+bw-MM,0); c.lineTo(i*bw+bw/2,h); c.closePath(); c.fill(); } }
 function roundRect(c, x, y, w, h, r, fill, stroke){ c.beginPath(); c.roundRect(x,y,w,h,r); if (fill){ c.fillStyle=fill; c.fill(); } if (stroke){ c.strokeStyle=stroke; c.stroke(); } }
 function sheetHead(c, Wd, les, no, unit, sub){
   c.fillStyle='#fff'; c.fillRect(0,0,Wd,Math.round(297*MM)); bunting(c, Wd, 8*MM); c.textBaseline='alphabetic';
   c.font = `${5.4*MM}px ${DISPLAY}`;
   const tag = no ? `${unitName(unit)} 第 ${no} 課` : '自己設計', tw = c.measureText(tag).width + 6*MM;
-  c.save(); c.translate(15*MM, 14*MM); c.rotate(-.04); roundRect(c, 0, 0, tw, 9*MM, 4.5*MM, '#ffc83d'); c.fillStyle='#3b2b2b'; c.fillText(tag, 3*MM, 6.6*MM); c.restore();
+  c.save(); c.translate(15*MM, 14*MM); c.rotate(-.04); roundRect(c, 0, 0, tw, 9*MM, 4.5*MM, '#d9bb7c'); c.fillStyle='#3b2b2b'; c.fillText(tag, 3*MM, 6.6*MM); c.restore();
   c.fillStyle='#3b2b2b'; c.font = `${10*MM}px ${DISPLAY}`; c.fillText(les.name, 15*MM+tw+4*MM, 23.5*MM);
-  if (les.level){ c.font = `${6*MM}px ${DISPLAY}`; c.fillStyle='#f2a900'; c.textAlign='right'; c.fillText(stars(les.level), 195*MM, 22*MM); c.textAlign='left'; }
+  if (les.level){ c.font = `${6*MM}px ${DISPLAY}`; c.fillStyle='#b8894a'; c.textAlign='right'; c.fillText(stars(les.level), 195*MM, 22*MM); c.textAlign='left'; }
   c.font = `500 ${3.7*MM}px ${FONT}`; c.fillStyle='#7a625d'; c.fillText(sub, 15*MM, 31*MM);
-  c.textAlign='right'; c.fillStyle='#ef4b4b'; c.fillText('列印選「實際大小 100%」', 195*MM, 31*MM); c.textAlign='left';
+  c.textAlign='right'; c.fillStyle='#a8644b'; c.fillText('列印選「實際大小 100%」', 195*MM, 31*MM); c.textAlign='left';
 }
 function checkBar(c, x, y){ c.save(); c.strokeStyle='#3b2b2b'; c.lineWidth=.35*MM; c.beginPath(); c.moveTo(x,y); c.lineTo(x+5*CM,y); for (let i=0;i<=5;i++){ c.moveTo(x+i*CM, y-(i%5?1:1.8)*MM); c.lineTo(x+i*CM, y+(i%5?1:1.8)*MM); } c.stroke();
   c.fillStyle='#7a625d'; c.font = `500 ${2.9*MM}px ${FONT}`; c.fillText('印出來量量看：這條應該是 5 公分', x, y-2.6*MM); c.restore(); }
@@ -1369,11 +1366,11 @@ async function makeWeaveSheet(les, no){
   if (les.petals){ c.beginPath(); for (let i=0;i<=720;i++){ const a = G.ang(0) + i/720*TAU, [x,y] = pol(a, rimR(G, a, 1)); i ? c.lineTo(x,y) : c.moveTo(x,y); } c.closePath(); c.stroke();
     c.setLineDash([.15,.12]); c.strokeStyle='#b5a69d'; c.lineWidth=.03; c.beginPath(); c.arc(0,0,PR,0,TAU); c.stroke(); }
   else { c.beginPath(); c.arc(0,0,PR,0,TAU); c.stroke(); }
-  c.setLineDash([.2,.14]); c.strokeStyle='#ef4b4b'; c.lineWidth=.035; c.beginPath(); c.arc(0,0,G.notchIn,0,TAU); c.stroke(); c.setLineDash([]);
+  c.setLineDash([.2,.14]); c.strokeStyle='#a8644b'; c.lineWidth=.035; c.beginPath(); c.arc(0,0,G.notchIn,0,TAU); c.stroke(); c.setLineDash([]);
   // 放射線
   for (let k=0;k<G.N;k++){ const a = G.ang(k), r = rimR(G, a, 1);
     c.strokeStyle='#cfc4bd'; c.lineWidth=.025; c.setLineDash([.12,.12]); c.beginPath(); c.moveTo(...pol(a,.9)); c.lineTo(...pol(a, G.notchIn)); c.stroke(); c.setLineDash([]);
-    c.strokeStyle='#ef4b4b'; c.lineWidth=.07; c.beginPath(); c.moveTo(...pol(a, r)); c.lineTo(...pol(a, G.notchIn)); c.stroke(); }
+    c.strokeStyle='#a8644b'; c.lineWidth=.07; c.beginPath(); c.moveTo(...pol(a, r)); c.lineTo(...pol(a, G.notchIn)); c.stroke(); }
   c.strokeStyle='#3d3434'; c.lineWidth=.04; c.beginPath(); c.moveTo(-.5,0); c.lineTo(.5,0); c.moveTo(0,-.5); c.lineTo(0,.5); c.stroke(); c.beginPath(); c.arc(0,0,.18,0,TAU); c.stroke();
   c.restore();
   // 編號與角度
@@ -1384,7 +1381,7 @@ async function makeWeaveSheet(les, no){
     c.fillStyle='#9a8f8a'; c.font = `500 ${2.7*MM}px ${FONT}`; c.fillText(`${Math.round(k*360/G.N)}°`, cx+gx*CM, cy+gy*CM); }
   c.fillStyle='#3b2b2b'; c.font = `${4.4*MM}px ${DISPLAY}`; c.fillText(`${G.N} 個缺口`, cx, cy - 13*MM); c.font = `500 ${3.2*MM}px ${FONT}`; c.fillStyle='#7a625d'; c.fillText(`每格 360° ÷ ${G.N} ≈ ${G.deg}°`, cx, cy - 8*MM);
   c.fillText('中心', cx, cy + 5*MM);
-  c.fillStyle='#ef4b4b'; c.font = `500 ${2.9*MM}px ${FONT}`; c.fillText(`紅色短線＝剪缺口（剪到紅色虛線，約 ${(rimR(G,G.ang(0),1)-G.notchIn).toFixed(1)} 公分）`, cx, cy + 10*MM);
+  c.fillStyle='#a8644b'; c.font = `500 ${2.9*MM}px ${FONT}`; c.fillText(`紅色短線＝剪缺口（剪到紅色虛線，約 ${(rimR(G,G.ang(0),1)-G.notchIn).toFixed(1)} 公分）`, cx, cy + 10*MM);
   c.fillStyle='#7a625d'; c.fillText(les.petals ? '先沿外圈花瓣線剪下，再剪缺口' : '沿外圈剪下，放在紙盤正中間畫記號', cx, cy + 14.5*MM);
   c.textAlign='left'; c.textBaseline='alphabetic';
   c.fillStyle='#9a8f8a'; c.font = `500 ${2.8*MM}px ${FONT}`; c.fillText('紙盤比較大？模板放中間，', 15*MM, 42*MM); c.fillText('沿線延長到盤緣再剪。', 15*MM, 46*MM);
@@ -1425,11 +1422,11 @@ function pipeTemplate(c, PG, ox, oy){
   c.restore();
   // 起點與步驟編號
   const at = (cl, s) => { const g = f.cl[cl].geo, j = Math.round(s*(g.length-1)); return [X + g[j][0]*CM, Y + g[j][1]*CM]; };
-  const dot = (x, y, txt, bg='#ffc83d') => { c.fillStyle = bg; c.beginPath(); c.arc(x, y, 3*MM, 0, 7); c.fill(); c.lineWidth = .3*MM; c.strokeStyle='#3b2b2b'; c.stroke(); c.fillStyle='#3b2b2b'; c.font = `${3.3*MM}px ${DISPLAY}`; c.textAlign='center'; c.textBaseline='middle'; c.fillText(txt, x, y+.2*MM); c.textAlign='left'; c.textBaseline='alphabetic'; };
+  const dot = (x, y, txt, bg='#d9bb7c') => { c.fillStyle = bg; c.beginPath(); c.arc(x, y, 3*MM, 0, 7); c.fill(); c.lineWidth = .3*MM; c.strokeStyle='#3b2b2b'; c.stroke(); c.fillStyle='#3b2b2b'; c.font = `${3.3*MM}px ${DISPLAY}`; c.textAlign='center'; c.textBaseline='middle'; c.fillText(txt, x, y+.2*MM); c.textAlign='left'; c.textBaseline='alphabetic'; };
   const placed = [], free = pos => { let p = pos, n = 0; while (placed.some(q => Math.hypot(q[0]-p[0], q[1]-p[1]) < 6.5*MM) && n < 8){ n++; p = [pos[0] + 6.5*MM*Math.cos(n*1.3), pos[1] + 6.5*MM*Math.sin(n*1.3)]; } placed.push(p); return p; };
   const starts = [];
-  PG.cls.forEach((cl, i) => { const st = PG.ST[PG.ST.length-1].cl[i]; if (st.from === 'start' && st.sh){ const [x,y] = at(i, 0); c.fillStyle='#ef4b4b'; c.beginPath(); c.arc(x, y, 1.6*MM, 0, 7); c.fill(); starts.push([x, y, cl.name]); } });
-  starts.forEach(([x,y,nm], n) => { c.fillStyle='#ef4b4b'; c.font = `700 ${2.9*MM}px ${FONT}`; const ty = y - 3*MM - starts.slice(0,n).filter(q => Math.hypot(q[0]-x, q[1]-y) < 8*MM).length*3.8*MM; c.fillText(`${nm}起點`, x + 2.4*MM, ty); });
+  PG.cls.forEach((cl, i) => { const st = PG.ST[PG.ST.length-1].cl[i]; if (st.from === 'start' && st.sh){ const [x,y] = at(i, 0); c.fillStyle='#a8644b'; c.beginPath(); c.arc(x, y, 1.6*MM, 0, 7); c.fill(); starts.push([x, y, cl.name]); } });
+  starts.forEach(([x,y,nm], n) => { c.fillStyle='#a8644b'; c.font = `700 ${2.9*MM}px ${FONT}`; const ty = y - 3*MM - starts.slice(0,n).filter(q => Math.hypot(q[0]-x, q[1]-y) < 8*MM).length*3.8*MM; c.fillText(`${nm}起點`, x + 2.4*MM, ty); });
   PG.les.steps.forEach((s, j) => { if (!s.set) return; for (const k in s.set){ const st = PG.ST[j+1].cl[k], pv = PG.ST[j].cl[k]; if (!st.sh) continue;
     const g = f.cl[+k].geo, M = g.length; let lo, hi, ref;
     if (st.from === 'start'){ const f0 = pv.sh === st.sh && pv.from === st.from ? pv.f : 0; lo = Math.round(f0*(M-1)); hi = Math.round(Math.min(1, st.f)*(M-1)); ref = g[lo]; }
@@ -1471,7 +1468,7 @@ async function makeCover(unit){
     roundRect(c, X, Y, cw, ch, 4*MM, '#fff', '#f1d8c6'); roundRect(c, X+2.5*MM, Y+2.5*MM, cw-5*MM, cw-8*MM, 3*MM, '#2f9e85');
     const im = cw-8*MM; if (imgs[i] && imgs[i].complete && imgs[i].naturalWidth) c.drawImage(imgs[i], X+4*MM, Y+1*MM, im, im);
     c.fillStyle='#3b2b2b'; c.font = `${5*MM}px ${DISPLAY}`; c.fillText(`${i+1}. ${les.name}`, X+3*MM, Y+cw+1.5*MM);
-    c.fillStyle='#f2a900'; c.font = `${3.6*MM}px ${DISPLAY}`; c.fillText(stars(les.level), X+3*MM, Y+cw+7.2*MM); });
+    c.fillStyle='#b8894a'; c.font = `${3.6*MM}px ${DISPLAY}`; c.fillText(stars(les.level), X+3*MM, Y+cw+7.2*MM); });
   c.fillStyle='#3b2b2b'; c.font = `${4.6*MM}px ${DISPLAY}`; c.fillText('給帶領者', 18*MM, 228*MM);
   c.font = `500 ${3.7*MM}px ${FONT}`; c.fillStyle='#5f4c47';
   const notes = unit === 'weave' ? ['練雙手協調（一手扶盤、一手穿針）、捏握塑膠針、手指靈巧度，和「上、下、上、下」的序列記憶。','缺口一定是奇數，下一圈才會自然和上一圈相反。手抖或力氣弱：改粗毛線或布條、缺口剪寬一點、用鈍頭塑膠針或毛線尾端纏膠帶。','★ 1–2 課先熟悉上下編；★★ 3–4 課換色、剪花瓣；★★★ 5–6 課缺口多、有繞線技巧和裝飾，可分兩次完成。'] : ['練雙手協調（一手捏住、一手彎）、指尖捏力與扭轉、手指靈巧度，和照著順序一步一步做的序列記憶。','毛根裡面有鐵絲，剪開的尖端要往內折；手抖或力氣弱可改用粗毛根，捲螺旋時繞在鉛筆上。','★ 1–2 課只要彎和扭；★★ 3–4 課多根組合；★★★ 5–6 課連續彎折和裝飾，可分兩次完成。'];
